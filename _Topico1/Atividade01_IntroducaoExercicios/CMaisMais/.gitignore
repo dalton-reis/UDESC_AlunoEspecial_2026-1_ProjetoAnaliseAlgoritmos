@@ -1,0 +1,44 @@
+# Build artifacts (C/C++)
+*.o
+*.obj
+*.so
+*.a
+*.lib
+*.dll
+*.dylib
+*.exe
+*.out
+
+# Executable binaries
+main
+
+# Debug symbols (macOS)
+*.dSYM/
+
+# Build directories
+build/
+bin/
+Debug/
+Release/
+cmake-build-*/
+
+# CMake cache and generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+Makefile
+
+# IDE/editor
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# macOS
+.DS_Store
+
+# Swap/temp files
+*.swp
+*.swo
+*~

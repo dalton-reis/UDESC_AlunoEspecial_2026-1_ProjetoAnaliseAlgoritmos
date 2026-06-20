@@ -1,0 +1,1070 @@
+
+
+===== PAGE 1 =====
+
+Projeto e Análise de Algoritmos
+Reduções de Problemas
+André Tavares da Silva
+andre.silva@udesc.br
+
+
+
+===== PAGE 2 =====
+
+NP-Completo
+Um problema X é NP-Completo se:
+1.  O problema deve ser NP:          X  NP
+a) Conseguir um algoritmo não determinista que resolva o problema 
+em tempo polinomial
+b) Conseguir um algoritmo determinista que verifica em tempo 
+polinomial se uma resposta é verdadeira ou não  (certificado)
+2.  Fazer a redução de um problema NP-Completo (Y) conhecido
+para o problema X:   Y p X    para todo   Y  NP
+
+
+===== PAGE 3 =====
+
+(SAT) Satisfazibilidade 
+de Fórmulas Booleanas
+O problema da Satisfazibilidade de fórmulas booleanas  consiste 
+em determinar se existe uma atribuição de valores booleanos, 
+para as variáveis que ocorrem na fórmula, de tal forma que o 
+resultado seja verdadeiro.
+Exemplo:
+)()()( 32132121 xxxxxxxx 
+Problema de Decisão : existe uma combinação de valores para 
+x1 e x2 que satisfazem esta equação?
+Um literal é uma variável proposicional ou sua negação.
+Complexidade algoritmo 
+trivial: (2n)
+
+
+===== PAGE 4 =====
+
+(SAT) Satisfazibilidade 
+de Fórmulas Booleanas
+Classificando SAT como NP-Completo:
+Passo 1: Algoritmo de certificado     (determinista e polinomial)
+Passo 2: MTND   ≤p   SAT    
+bool certificado( bool *sol ){
+   return sol[1] &&
+         (sol[2] || !sol[1]) &&
+         (!sol[2] || !sol[3]) &&
+         (!sol[1] || sol[2] || sol[3]);
+}
+)()()( 32132121 xxxxxxxx 
+!! Um algoritmo de certificado genérico usaria uma repetição  
+para iterar sobre cada literal ou operador da expressão !!
+Neste caso qual seria a complexidade do algoritmo?
+
+
+===== PAGE 5 =====
+
+NP-Completo
+Teorema de Cook(-Levin): SAT é um problema NP-Completo 
+SAT está em P se, e somente se, P = NP
+qualquer problema em NP pode ser reduzido em tempo polinomial 
+por uma máquina de Turing não determinista a um problema SAT.
+MTND   ≤p   SAT
+Não vamos fazer essa redução pois ela é longa
+https://en.wikipedia.org/wiki/Cook%E2%80%93Levin_theorem 
+
+
+===== PAGE 6 =====
+
+(SAT) Satisfazibilidade 
+de Fórmulas Booleanas
+Classificando SAT como NP-Completo:
+Passo 1: Algoritmo de certificado     (passed)
+Passo 2: MTND   ≤p   SAT              (passed)
+Logo, provamos que SAT pertence ao conjunto
+de problemas NP-Completo!
+
+
+===== PAGE 7 =====
+
+Forma Normal Conjuntiva
+Uma formula booleana está na Forma Normal Conjuntiva  (CNF) se 
+é expressa por um grupo cláusulas AND, cada uma das quais 
+formada por OR entre literais.
+Uma fórmula booleana esta na k-CNF se cada cláusula possui 
+exatamente k literais:
+Exemplo 2-CNF:
+)()()( 212121 xxxxxx 
+Não é NP-
+Completo!
+
+
+===== PAGE 8 =====
+
+Forma Normal Conjuntiva
+Uma formula booleana está na Forma Normal Conjuntiva  (CNF) se 
+é expressa por um grupo cláusulas AND, cada uma das quais formada 
+por OR entre literais.
+Uma fórmula booleana está em 3-CNF se for uma conjunção (AND) 
+de cláusulas, onde cada cláusula é uma disjunção (OR) de exatamente 
+3 literais. O problema consiste em decidir se existe uma atribuição de 
+valores verdadeiros/falsos que satisfaça toda a expressão.
+)()()( 321321321 xxxxxxxxx 
+
+
+===== PAGE 9 =====
+
+3-CNF-SAT
+Porque é importante:
+● É um dos primeiros problemas provados como NP-Completo
+● O problema 3-SAT é uma das principais fontes de reduções em 
+NP-Completude. Por isso, diversos problemas são provados NP-
+Completos por redução de 3-SAT:
+– Clique
+– Cobertura de Vértices
+– Problema do Conjunto Independente
+– Ciclo Hamiltoniano
+– Soma de Subconjuntos
+– Coloramento de Grafo
+
+
+===== PAGE 10 =====
+
+3-CNF-SAT
+Problema: verificar se uma fórmula booleana
+                   na 3-CNF é satisfazível.
+3-CNF-SAT é NP-Completo?
+– Passo 1:   3-CNF-SAT  NP.
+– Passo 2:   SAT p 3-CNF-SAT.
+)()()( 321321321 xxxxxxxxx 
+
+
+===== PAGE 11 =====
+
+3-CNF-SAT
+Passo 1:   3-CNF-SAT  NP.
+bool certificado( bool *sol ){
+   return ( sol[1] ||  sol[2] ||  sol[3] ) 
+       && (!sol[1] || !sol[2] || !sol[3] )
+       && ( sol[1] ||  sol[2] || !sol[3] );
+}
+!! Um algoritmo de certificado genérico usaria uma repetição  
+para iterar sobre cada literal ou operador da expressão !!
+Neste caso qual seria a complexidade do algoritmo?
+)()()( 321321321 xxxxxxxxx 
+
+
+===== PAGE 12 =====
+
+3-CNF-SAT
+Árvore de Expressão:
+● Qualquer fórmula booleana ϕ pode ser representada como 
+uma árvore onde os nós são operadores e as folhas são 
+literais.
+● Atribuímos uma variável para a saída de cada nó.
+● Criamos cláusulas que forçam a consistência do operador.
+
+
+===== PAGE 13 =====
+
+SAT p 3-CNF-SAT 
+Dada uma fórmula booleana: )( 211 xxx 
+
+
+1x
+
+1x 2x
+1y
+2y
+3y
+REDUÇÃO
+1. Construir uma árvore que 
+represente a fórmula.
+2. Introduzir uma variável  yi  para 
+a raiz e a saída de cada no 
+interno.
+SAT
+
+
+===== PAGE 14 =====
+
+SAT p 3-CNF-SAT 
+))(()())(( 213322111 xxyyyyxyy 
+
+
+1x
+
+1x 2x
+1y
+2y
+3y
+3. Reescrevemos a fórmula original 
+como conjunções entre a variável 
+raiz e as cláusulas que descrevem 
+as operações de cada nó.
+Introduz uma variável e uma 
+cláusula para cada operador.
+
+
+===== PAGE 15 =====
+
+SAT p 3-CNF-SAT 
+))(()())(( 213322111 xxyyyyxyy 
+
+
+1x
+
+1x 2x
+1y
+2y
+3y
+3. Reescrevemos a fórmula original 
+como conjunções entre a variável 
+raiz e as cláusulas que descrevem 
+as operações de cada nó.
+Isso garante que y1 seja verdadeiro se e 
+somente se xl e y2 forem verdadeiros.
+Introduz uma variável e uma 
+cláusula para cada operador.
+
+
+===== PAGE 16 =====
+
+SAT p 3-CNF-SAT
+4.  Para cada ϕi construir uma tabela verdade, usando as 
+entradas que tornam ¬ϕi verdade, construir uma forma 
+normal disjuntiva (DNF) para cada ϕi    
+))(()())(( 213322111 xxyyyyxyy 
+
+
+===== PAGE 17 =====
+
+SAT p 3-CNF-SAT
+))(()())(( 213322111 xxyyyyxyy 
+Cada cláusula de ´ introduz no 
+máximo 8 cláusulas em ´´, pois cada 
+cláusula de ´ possui no máximo 3 
+variáveis.
+ 
+y1 x1 y2
+V V V V
+V V F F
+V F V F
+V F F F
+F V V F
+F V F V
+F F V V
+F F F V
+
+
+===== PAGE 18 =====
+
+SAT p 3-CNF-SAT
+)()(
+)()(
+211211
+2112112
+yxyyxy
+yxyyxy
+
+
+)()(
+)()(
+211211
+2112112
+yxyyxy
+yxyyxy
+
+
+Converter a fórmula para a CNF usando as leis de De Morgan (*):
+(*) Resumo: ao passar uma negação para dentro 
+dos parênteses: OU vira E e vice-versa
+
+
+===== PAGE 19 =====
+
+SAT p 3-CNF-SAT
+O último passo faz com que cada cláusula tenha exatamente 3 
+literais, para isso usamos duas novas variáveis p e q. Para cada 
+cláusula Ci em ϕ”:
+1. Se Ci tem 3 literais, simplesmente inclua Ci.
+2. Se Ci tem 2 literais,                          , inclua:
+3. Se Ci tem 1 literal, l1, inclua:
+Introduz no máximo 4 cláusulas por cláusula em ϕ”.
+)( 21 llCi 
+)()( 2121 pllpll 
+)()()()( 1111 qplqplqplqpl 
+
+
+===== PAGE 20 =====
+
+SAT p 3-CNF-SAT
+Análise de eficiência:
+Operação Custo
+Arvore de parse O(n) nós
+Variáveis extras O(n) novas variáveis
+Cláusulas 3-CNF O(n) novas cláusulas
+
+
+===== PAGE 21 =====
+
+3-CNF-SAT
+Problema: verificar se uma fórmula booleana
+                   na 3-CNF é satisfazível.
+3-CNF-SAT é NP-Completo?   SIM
+– Passo 1:   3-CNF-SAT  NP.
+– Passo 2:   SAT p 3-CNF-SAT.
+)()()( 321321321 xxxxxxxxx 
+...)()()()(
+)()()()(
+211211211211
+1111
+
+
+yxyyxyyxyyxy
+qpyqpyqpyqpy
+
+
+===== PAGE 22 =====
+
+CLIQUE
+Um Clique em um grafo não direcionado G = ( V, A) é um 
+subconjunto de vértices V’  V, onde cada vértice está conectado 
+por uma aresta. Ou seja, um subgrafo completo.
+Versão de otimização: Encontrar o maior Clique possível.
+Versão de decisão: Existe um Clique de tamanho ≥ k?
+a
+b c
+d e
+f
+
+
+===== PAGE 23 =====
+
+CLIQUE
+Um Clique em um grafo não direcionado G = ( V, A) é um 
+subconjunto de vértices V’  V, onde cada vértice está conectado 
+por uma aresta. Ou seja, um subgrafo completo.
+Versão de otimização: Encontrar o maior Clique possível.
+Versão de decisão: Existe um Clique de tamanho ≥ k?
+a
+b c
+d e
+f
+Clique de tamanho 2?
+
+
+===== PAGE 24 =====
+
+CLIQUE
+Um Clique em um grafo não direcionado G = ( V, A) é um 
+subconjunto de vértices V’  V, onde cada vértice está conectado 
+por uma aresta. Ou seja, um subgrafo completo.
+Versão de otimização: Encontrar o maior Clique possível.
+Versão de decisão: Existe um Clique de tamanho ≥ k?
+a
+b c
+d e
+f
+Clique de tamanho 2?
+Sim:   a – b
+           a – e
+           a – f
+           b – c
+           ...
+
+
+===== PAGE 25 =====
+
+CLIQUE
+Um Clique em um grafo não direcionado G = ( V, A) é um 
+subconjunto de vértices V’  V, onde cada vértice está conectado 
+por uma aresta. Ou seja, um subgrafo completo.
+Versão de otimização: Encontrar o maior Clique possível.
+Versão de decisão: Existe um Clique de tamanho ≥ k?
+a
+b c
+d e
+f
+Clique de tamanho 3?
+
+
+===== PAGE 26 =====
+
+CLIQUE
+Um Clique em um grafo não direcionado G = ( V, A) é um 
+subconjunto de vértices V’  V, onde cada vértice está conectado 
+por uma aresta. Ou seja, um subgrafo completo.
+Versão de otimização: Encontrar o maior Clique possível.
+Versão de decisão: Existe um Clique de tamanho ≥ k?
+a
+b c
+d e
+f
+Clique de tamanho 3?
+Sim:   a – b – e
+           b – c – d
+           b – c – e
+           c – d – e
+
+
+===== PAGE 27 =====
+
+CLIQUE
+Um Clique em um grafo não direcionado G = ( V, A) é um 
+subconjunto de vértices V’  V, onde cada vértice está conectado 
+por uma aresta. Ou seja, um subgrafo completo.
+Versão de otimização: Encontrar o maior Clique possível.
+Versão de decisão: Existe um Clique de tamanho ≥ k?
+a
+b c
+d e
+f
+Clique de tamanho 4?
+
+
+===== PAGE 28 =====
+
+CLIQUE
+Um Clique em um grafo não direcionado G = ( V, A) é um 
+subconjunto de vértices V’  V, onde cada vértice está conectado 
+por uma aresta. Ou seja, um subgrafo completo.
+Versão de otimização: Encontrar o maior Clique possível.
+Versão de decisão: Existe um Clique de tamanho ≥ k?
+a
+b c
+d e
+f
+Clique de tamanho 4?
+Sim:   b – c – e – d
+           a – b – c – e 
+
+
+===== PAGE 29 =====
+
+CLIQUE
+Um Clique em um grafo não direcionado G = ( V, A) é um 
+subconjunto de vértices V’  V, onde cada vértice está conectado 
+por uma aresta. Ou seja, um subgrafo completo.
+Versão de otimização: Encontrar o maior Clique possível.
+Versão de decisão: Existe um Clique de tamanho ≥ k?
+a
+b c
+d e
+f
+Clique de tamanho 5?
+
+
+===== PAGE 30 =====
+
+CLIQUE
+Um Clique em um grafo não direcionado G = ( V, A) é um 
+subconjunto de vértices V’  V, onde cada vértice está conectado 
+por uma aresta. Ou seja, um subgrafo completo.
+Versão de otimização: Encontrar o maior Clique possível.
+Versão de decisão: Existe um Clique de tamanho ≥ k?
+a
+b c
+d e
+f
+Clique de tamanho 5?
+Não
+
+
+===== PAGE 31 =====
+
+CLIQUE
+CLIQUE   é   NP-Completo?
+– Passo 1:   CLIQUE  NP.
+– Passo 2:   3-CNF-SAT  p  CLIQUE.
+a
+b c
+d e
+f
+
+
+===== PAGE 32 =====
+
+CLIQUE
+Passo 1: Clique  NP
+Dado um grafo G = (V, A), a solução (certificado) V’ e k,
+verificar se V’ é válido e se |V’| ≥ k  em tempo polinomial
+Se |V’| < k  então  retorne Falso
+Para cada u  V’
+Para cada v  V’
+Se u ≠ v então verificar se (u, v)  A 
+V = { a, b, c, d, e, f }
+A = { (a,b), (a,f), (b,c), (b,d), (b,e),
+        (c,d), (c,e), (d,e) }
+V’ = { b, c, d, e }
+Complexidade?
+a
+b c
+d e
+f
+
+
+===== PAGE 33 =====
+
+• Passo 2: 3-CNF-SAT  p  CLIQUE.
+Dada uma instancia ϕ do problema 3-CNF-SAT converteremos 
+esta para um grafo G que terá  3k vértices, onde k é o número de 
+cláusulas de ϕ.
+– u e v são vértices que correspondem a literais em diferentes 
+cláusulas;
+– Todos os vértices são ligados por arestas, com exceção:
+• se u e v pertencem a mesma cláusula, então não há ligação;
+• se u corresponde a um literal x, e v corresponde ao literal ~x, 
+então não há ligação entre esses dois vértices;
+3-CNF-SAT p CLIQUE
+
+
+===== PAGE 34 =====
+
+• Passo 2: 3-CNF-SAT  p  CLIQUE.
+ϕ = (x1 ˅ ~x2 ˅ ~x3 ) ˄ (~x1 ˅ x2 ˅ x3 ) ˄ ( x1 ˅ x2 ˅ x3 )
+3-CNF-SAT p CLIQUE
+x1
+~x2
+~x3
+~x1 x2 x3
+x1
+x2
+x3
+ϕ é satisfazível   ↔   G possui um clique ≥ k
+
+
+===== PAGE 35 =====
+
+Cobertura de Vértices
+(VERTEX-COVER)
+Uma Cobertura de Vértices  de um grafo não orientado 
+G = ( V , A) é um subconjunto V’  V tal que se ( u, v)  A, então     
+u  V’ ou v  V’.     
+      Todas as arestas
+devem ser observadas!
+a
+b c
+d e
+f
+
+
+===== PAGE 36 =====
+
+Cobertura de Vértices
+(VERTEX-COVER)
+Uma Cobertura de Vértices  de um grafo não orientado 
+G = ( V , A) é um subconjunto V’  V tal que se ( u, v)  A, então     
+u  V’ ou v  V’.
+Uma Cobertura de Vértices é um subconjunto de vértices V tal que 
+toda aresta do grafo toca em, pelo menos, um vértice de V.
+      Todas as arestas
+devem ser observadas!
+a
+b c
+d e
+f
+
+
+===== PAGE 37 =====
+
+Cobertura de Vértices
+(VERTEX-COVER)
+Versão de otimização: Encontrar menor Cobertura de Vértices.
+Versão de decisão: Existe uma cobertura de tamanho k?
+a
+b c
+d e
+f
+
+
+===== PAGE 38 =====
+
+Cobertura de Vértices
+(VERTEX-COVER)
+Passo 1: Cobertura de Vértices  NP.
+Dado um grafo G =(V , A) e a solução (certificado) V´
+verificar se V’ é válido e se |V’| ≤ k  em tempo polinomial 
+Se |V’| > k  então  retorne Falso
+Para cada (u, v)  A
+Verificar se u  V´ ou v  V´
+a
+b c
+d e
+f
+V = { a, b, c, d, e, f }
+A = { (a,c), (a,d), (b,f), (c,f), (f,e) }
+V’ = { a, f }
+Complexidade?
+
+
+===== PAGE 39 =====
+
+CLIQUE pVERTEX-COVER
+CLIQUE
+Entrada (G, k), onde G = (V, A)
+ 
+• Passo 2: CLIQUE  p  VERTEX-COVER
+a
+b c
+d e
+f a
+b c
+d e
+f
+
+
+===== PAGE 40 =====
+
+CLIQUE pVERTEX-COVER
+CLIQUE
+Entrada (G, k), onde G = (V, A)
+ 
+• Passo 2: CLIQUE  p  VERTEX-COVER
+a
+b c
+d e
+f a
+b c
+d e
+f
+
+
+===== PAGE 41 =====
+
+Ciclo Hamiltoniano
+Um Ciclo Hamiltoniano  em um grafo não orientado é um 
+caminho que passa por cada vértice do grafo exatamente uma vez 
+e retorna ao vértice inicial.  
+Versão de decisão: um grafo G possui um ciclo Hamiltoniano?
+A B
+D
+C
+E
+
+
+===== PAGE 42 =====
+
+Ciclo Hamiltoniano
+A B
+D
+C
+E
+Passo 1: Ciclo Hamiltoniano  NP
+Dado um grafo G =(V , A) e a solução (certificado) V´
+verificar se V´ é um ciclo Hamiltoniano em tempo polinomial 
+Para cada v  V: viz[v] = não marcado
+Para cada v’  V’:
+     Se viz[v’]==marcado: retorne falso
+     Senão: viz[v’] = marcado
+Para cada x  viz:
+     Se x não está marcado: retorne falso
+retorne verdadeiro
+V = { a, b, c, d, e }
+A = { (a,b), (a,c), (a,d), (b,e), (c,e), (d,e) }
+V’ = { a, b, e, d, c }
+Complexidade?
+
+
+===== PAGE 43 =====
+
+Ciclo Hamiltoniano
+• Passo 2: VERTEX-COVER  p  CICLO HAMILTONIANO
+Dado um grafo instância do problema de Cobertura
+de vértices G = (V , E), devemos:
+- criar k vértices seletores, onde k é o número de
+vértices que pertencem a solução da cobertura;
+- criar E dispositivos, totalizando E * 12 novos
+vértices e E * 14 arestas;
+
+
+
+===== PAGE 44 =====
+
+Ciclo Hamiltoniano
+ 
+
+
+===== PAGE 45 =====
+
+Ciclo Hamiltoniano
+• Passo 2: VERTEX-COVER  p  CICLO HAMILTONIANO
+s1    Wwx    Wwy*    Wwz    s2    Wyx    Wyw*    s1
+O caminho 3 entre dispositivos (*) só ocorre em arestas compartilhadas
+por vértices que fazem parte da solução da cobertura de vértices
+
+
+===== PAGE 46 =====
+
+Ciclo Hamiltoniano
+• Passo 2: VERTEX-COVER  p  CICLO HAMILTONIANO
+Importante: note que o novo grafo G’ = (V’, E’)
+| V’ | = 12 |E| + k
+| V’ | ≤ 12 |E| + |V|
+| E’ | = 14 |E| + ( 2|E| - |V| ) + (2k |V|)
+| E’ | = 16 |E| + ( 2k – 1 ) |V|
+| E’ | ≤ 16 |E| + ( 2|V| – 1 ) |V|
+Instância cresceu 
+apenas em tamanho 
+polinomial
+
+
+===== PAGE 47 =====
+
+Ciclo Hamiltoniano
+• Resumo: VERTEX-COVER  p  CICLO HAMILTONIANO
+É possível? Sim.
+É intuitivo? Nem um pouco.
+Na prática acadêmica, para provar que a Cobertura de Vértice é 
+NP-Completa, é muito mais comum e fácil fazer o caminho 
+inverso (reduzir 3-SAT em Cobertura de Vértice) ou reduzir
+3-SAT em Ciclo Hamiltoniano separadamente.
+
+
+===== PAGE 48 =====
+
+Problema do Caixeiro Viajante
+Um vendedor deseja visitar n cidades e retornar a cidade de 
+origem. Dado um grafo não orientado completo com n vértices, 
+onde existe um custo c(i, j) (associado a cada aresta) para viajar 
+da cidade i a cidade j.
+Otimização: Qual é o menor
+caminho para o vendedor?
+Decisão: Existe um caminho
+para o vendedor com
+custo máximo igual a k?
+A
+B
+E
+C
+D
+10
+2
+4
+11 5
+3
+9
+7
+4
+6
+
+
+===== PAGE 49 =====
+
+Problema do Caixeiro Viajante
+Passo 1: Caixeiro Viajante  NP
+Dado um grafo G =(V , A), a solução (certificado) V´ e o custo 
+máximo k, verificar se V´ é um caminho válido do Caixeiro com 
+custo menor ou igual a k em tempo polinomial 
+Para cada v  V: viz[v] = não marcado
+custo = 0, n = |V’|
+Se V’[0] ≠ V’[n-1]: retorne falso
+Para i=0 até n-2:
+     Se viz[ V’[i] ]==marcado: retorne falso
+     Senão: viz[ V’[i] ] = marcado
+            custo = custo + G[ V’[i] ][ V’[i+1] ].custo
+Se custo > k: retorne falso
+Para i=0 até n-1:
+     Se viz[ i ] == não marcado: retorne falso
+retorne verdadeiro
+Complexidade?
+
+
+===== PAGE 50 =====
+
+• Passo 2: CICLO HAMILTON   p   CAIXEIRO
+Redução do Problema do Ciclo Hamiltoniano 
+ao Problema do Caixeiro Viajante
+para cada vértice i
+para cada vértice j
+se (i, j)  H então c(i, j)  0
+senão c(i, j)  1  
+A B
+D
+C
+E
+A B
+D
+C
+E
+0
+0
+1
+0
+0
+0
+0
+1
+1
+1
+
+p
+Redução em
+     tempo
+   polinomial
+G (G´, 0)
+
+
+===== PAGE 51 =====
+
+• Passo 2: CICLO HAMILTON   p   CAIXEIRO
+Redução do Problema do Ciclo Hamiltoniano 
+ao Problema do Caixeiro Viajante
+A B
+D
+C
+E
+A B
+D
+C
+E
+0
+0
+1
+0
+0
+0
+0
+1
+1
+1
+
+p
+Redução em
+     tempo
+   polinomial
+G (G´, 0)
+Se colocarmos pesos (distâncias) nas arestas e tentar encontrar o Ciclo Hamiltoniano 
+de menor custo, também resolvemos o Problema do Caixeiro Viajante.
+
+
+===== PAGE 52 =====
+
+SUBSET-SUM
+Dado um conjunto finito de inteiros positivos S e um inteiro
+t > 0, determinar se existe um subconjunto S’  S onde o 
+somatório dos elementos de S’ é igual a t.
+
+
+
+n
+i
+i ts
+1
+Exemplo:      S = {1, 2, 7, 14, 49, 98, 343, 686, 2.409, 2.793,
+                                16.808, 17.206, 17.705, 117.993 }
+t = 138.457
+
+
+===== PAGE 53 =====
+
+SUBSET-SUM
+Exemplo:      
+S = {1, 2, 7, 14, 49, 98, 343, 686, 2.409, 2.793,
+                                16.808, 17.206, 17.705, 117.993 }
+t = 138.457
+S’ = { 1, 2 , 7, 98, 343, 686, 2.409, 17.206, 117.705 }
+
+
+===== PAGE 54 =====
+
+SUBSET-SUM
+Passo 1: Subset-Sum    NP
+Dado um conjunto de números inteiros S, o valor t objetivo e a 
+solução (certificado) S´, verificar se S´ é uma solução do 
+problema em tempo polinomial.
+soma = 0
+Para cada s’  S’:
+     Se s’  S: retorne falso
+     soma = soma + s’
+Se soma != t: retorne falso
+Senão: retorne verdadeiro
+Complexidade?
+
+
+===== PAGE 55 =====
+
+Passo 2: 3-CNF-SAT   p   SUBSET-SUM
+SUBSET-SUM
+Dada uma fórmula  ϕ  instância de 3-CNF-SAT, devemos:
+ Criar dois números para cada variável xi em ϕ:   vi  e v’i
+ Criar dois números para cada cláusula Cj em ϕ:  sj  e  s’j
+Cada número criado terá  n + k dígitos, onde n é o número de 
+variáveis e k é o número de cláusulas.
+O valor  t  terá um valor 1 para cada dígito identificado por 
+variável e 4 em cada dígito identificado por uma cláusula
+
+
+===== PAGE 56 =====
+
+Passo 2: 3-CNF-SAT   p   SUBSET-SUM
+SUBSET-SUM
+ Para cada variável vi  e v’i colocamos o valor 1 no dígito 
+identificado por xi e 0 nos outros dígitos;
+ Se o literal xi aparece na cláusula Cj, então o dígito 
+identificado por Cj em vi contém valor 1;
+ Se o literal ~xi aparece na cláusula Cj, então o dígito 
+identificado por Cj em vi contém valor 0;
+ Para cada sj  e  s’j  colocamos valor 0 em todos os dígitos, com 
+duas exceções:
+em sj colocamos 1 no dígito Cj
+em s’j  colocamos 2 no dígito Cj
+
+
+===== PAGE 57 =====
+
+3-CNF-SAT p SUBSET-SUM
+)~()~(~ 321321 xxxxxx 
+x1 x2 x3 C1 C2
+v1 1 0 0 0 1
+v'1 1 0 0 1 0
+v2 0 1 0 1 1
+v'2 0 1 0 0 0
+v3 0 0 1 0 0
+v'3 0 0 1 1 1
+s1 0 0 0 1 0
+s'1 0 0 0 2 0
+s2 0 0 0 0 1
+s'2 0 0 0 0 2
+t 1 1 1 4 4
+S = { 1, 2, 10, 20, 100, 111,
+     1.000, 1.011, 10.001,10.010 }
+t = 11144
+S’ = { 10001, 1011, 111, 20, 1 }
+       {  v1,v2,v’3,s’1,s2  }
+X1 = V,      X2 = V,      X3 = F
+
+
+===== PAGE 58 =====
+
+3-CNF-SAT p SUBSET-SUM
+Note que a maior soma de cada coluna (dígito) é no máximo 6. 
+Assim, para esta conversão devemos usar uma base ≥ 7.
+A redução de 3-CNF-SAT para SUBSET-SUM acontece em 
+tempo polinomial.
+
+
+===== PAGE 59 =====
+
+Algoritmos que Executam 
+em Tempo Pseudo-Polinomial 
+Usando programação dinâmica podemos implementar um 
+algoritmo pseudo-polinomial com complexidade O(nt), onde  n  é 
+o número de elementos no conjunto e  t  o valor do somatório que 
+se deseja alcançar!!
+ 
+   
+Como assim pseudo-polinomial?
+Se o valor de t é limitado por um polinômio existe uma solução eficiente.
+Mas, se o valor de t for muito grande (e.g. t = 2n), a solução deixa de ser 
+eficiente, se tornando exponencial ou pior.
+(Números pequenos [64 bits]   vs.   BigInt [n bits])
+
+
+===== PAGE 60 =====
+
+Programação Dinâmica
+(Subset-Sum)
+Dado um conjunto de inteiros positivos, representados como um 
+arranjo S[1..n], e um inteiro t, existe algum subconjunto de S tal 
+que a soma de seus elementos seja t.
+
+
+
+
+
+
+
+
+
+])[,1(),1(
+0 se                
+0 se                   
+),(
+ixtiSubsetStiSubsetS
+nitFalsidade
+tVerdade
+tiSubsetS
+Exemplo: x = {2, 3, 5} e t = 8.
+
+
+===== PAGE 61 =====
+
+Programação Dinâmica
+(Subset-Sum)
+SubsetSum ( x[1..n] , t )
+S[n + 1, 0] ← Verdade
+para j ← 1 até t
+S[n + 1, j] ← Falso
+para i ← n até 1
+S[i, 0] ← Verdade
+para j ← 1 até x[i] – 1
+S[i, j] ← S[i + 1, j]
+para j ← x[i] até t
+S[i, j] ← S[i + 1, j] v S[i + 1, j – x[i]]
+retorne S[1,t]
+ 
+
+
+===== PAGE 62 =====
+
+Programação Dinâmica
+(Subset-Sum)
+0 1 2 3 4 5 6 7 8 9
+1 V V F V V V V V V V
+2 V F F V F V F V V F
+3 V F F F F V F V F F
+4 V F F F F F F V F F
+5 V F F F F F F F F F
+Exemplo:  x = {1, 3, 5, 7} e t = 9.
+
+
+===== PAGE 63 =====
+
+Algoritmos que Executam 
+em Tempo Pseudo-Polinomial 
+A restrição de  t  pequeno pode ser bastante razoável na prática:
+• Problemas onde é impossível a ocorrência de números muito 
+grandes (e.g. problemas de escalonamento);
+• Problemas onde o tamanho do número possa ser restrito ao 
+tamanho da palavra do processador.
+Note contudo que esse não é o caso da redução do 3-CNF-SAT 
+ao SUBSET-SUM, onde o valor de  t  cresce exponencialmente 
+em relação ao número de variáveis e cláusulas presentes na 
+fórmula booleana.
+   
+
+
+===== PAGE 64 =====
+
+Resumindo, quais reduções de problemas foram feitas:
+Reduções
+SAT
+3-CNF-SAT
+CLIQUE
+COBERTURA DE VÉRTICES
+CICLO HAMILTONIANO
+CAIXEIRO-VIAJANTE
+SUBSET-SUM
+
+
+
+===== PAGE 65 =====
+
+Exercícios
+•
+ 
+
+
+
+===== PAGE 66 =====
+
+Exercícios
+3) Reduzir a seguinte instância do problema CLIQUE para uma instância 
+do SUBSET-SUM (CLIQUE  =>  3-CNF-SAT  =>  SUBSET-SUM). Para a 
+instância do 3-CNF-SAT, elabore uma solução válida
+(resultado = verdade) e outra não válida
+(resultado = falsidade) e as soluções
+correspondentes na instância do
+SUBSET-SUM.
+4) Escreva um programa para resolver a seguinte instância do
+SUBSET-SUM usando programação dinâmica:
+x = {2, 5, 9, 16, 21, 32, 41, 53, 67, 68, 104, 321, 620, 674,
+         871, 1045, 1178, 1670, 4500, 6799, 11301, 12609}
+           S = 14998 

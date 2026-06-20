@@ -1,0 +1,510 @@
+
+
+===== PAGE 1 =====
+
+Projeto e Análise de Algoritmos
+Estudo da Tratabilidade
+de Problemas Computacionais
+André Tavares da Silva
+andre.silva@udesc.br
+
+
+
+===== PAGE 2 =====
+
+Problemas tratáveis e intratáveis
+Problemas tratáveis : resolvidos por algoritmos deterministas 
+que executam em tempo polinomial.
+Problemas intratáveis: não se conhece algoritmos deterministas 
+que os resolvam em tempo polinomial. 
+    1 < log log n < log n < nc  <  nlog n < cn < n!
+
+
+===== PAGE 3 =====
+
+Problemas tratáveis e intratáveis
+Problemas tratáveis : resolvidos por algoritmos deterministas 
+que executam em tempo polinomial.
+Problemas intratáveis: não se conhece algoritmos deterministas 
+que os resolvam em tempo polinomial. 
+    1 < log log n < log n < nc  <
+ nlog n < cn < n!
+
+
+===== PAGE 4 =====
+
+Categorias de Problemas
+Problemas de Otimização:  Cada solução possível tem um valor 
+associado e desejamos encontrar a solução com melhor valor.
+Problemas de Decisão: Problemas que tem resposta sim ou não.
+Problemas de Decisão são possivelmente “mais fáceis” do que 
+problemas de Otimização, mas com certeza “não mais difíceis”!
+Exemplo:
+- Qual é o menor caminho entre os vértices a e b de um grafo?
+- Existe um caminho de no máximo k arestas entre a e b?
+
+
+===== PAGE 5 =====
+
+Categorias de Problemas
+Apesar da maioria das vezes estarmos interessados em problemas 
+de otimização, a teoria de complexidade é baseada em problemas 
+de decisão (sim/não).
+
+
+===== PAGE 6 =====
+
+Categorias de Problemas
+Apesar da maioria das vezes estarmos interessados em problemas de 
+otimização, a teoria de complexidade é baseada em problemas de 
+decisão (sim/não).
+● Exemplo: Existe um caminho de no máximo k arestas entre a e b?
+● É fácil converter um problema de otimização para um problema de 
+decisão.
+
+
+===== PAGE 7 =====
+
+Categorias de Problemas
+Apesar da maioria das vezes estarmos interessados em problemas de 
+otimização, a teoria de complexidade é baseada em problemas de 
+decisão (sim/não).
+● Exemplo: Existe um caminho de no máximo k arestas entre a e b?
+● É fácil converter um problema de otimização para um problema de 
+decisão.
+Exemplo:
+CLIQUE: Dado um grafo G = ( V, E) e um inteiro k, existe um clique 
+(subgrafo completo) de tamanho k?
+
+
+===== PAGE 8 =====
+
+Categorias de Problemas
+Apesar da maioria das vezes estarmos interessados em problemas de 
+otimização, a teoria de complexidade é baseada em problemas de 
+decisão (sim/não).
+● Exemplo: Existe um caminho de no máximo k arestas entre a e b?
+● É fácil converter um problema de otimização para um problema de 
+decisão.
+Exemplo:
+CLIQUE: Dado um grafo G = ( V, E) e um inteiro k, existe um clique 
+(subgrafo completo) de tamanho k?
+k=2 sim
+k=3 sim
+k=4 não
+
+
+===== PAGE 9 =====
+
+Categorias de Problemas
+Apesar da maioria das vezes estarmos interessados em problemas de 
+otimização, a teoria de complexidade é baseada em problemas de 
+decisão (sim/não).
+● Exemplo: Existe um caminho de no máximo k arestas entre a e b?
+● É fácil converter um problema de otimização para um problema de 
+decisão.
+Exemplo 2:
+DIJKSTRA: Dado um grafo G = ( V, E) e um inteiro k, existe um 
+caminho partindo de um certo nó de tamanho k?
+Podemos ir testando 
+diferentes valores de k
+
+
+===== PAGE 10 =====
+
+Problemas de Decisão
+Satisfabilidade (satisfability, SAT):
+● Dada uma fórmula booleana, existe uma atribuição de valores 
+às suas variáveis que a torne verdadeira?
+● A fórmula deve estar na forma normal conjuntiva (ou 
+disjuntiva): cláusula apenas com operador ou, denotado por ˅ 
+(sem repetir elementos) e combinadas com o operador e, 
+denotado por ˄
+● Exemplo: existem valores booleanos para x1, x2, x3 tais que a 
+expressão abaixo seja verdadeira?
+( x 1∨¬ x 2 )∧( x 1∨ x 3 )∧( ¬ x 1∨ x 2 )
+
+
+===== PAGE 11 =====
+
+Problemas de Decisão
+Satisfabilidade (satisfability, SAT):
+● Dada uma fórmula booleana, existe uma atribuição de valores 
+às suas variáveis que a torne verdadeira?
+● A fórmula deve estar na forma normal conjuntiva (ou 
+disjuntiva): cláusula apenas com operador ou, denotado por ˅ 
+(sem repetir elementos) e combinadas com o operador e, 
+denotado por ˄
+● Exemplo: existem valores booleanos para x1, x2, x3 tais que a 
+expressão abaixo seja verdadeira?
+( x 1∨¬ x 2 )∧( x 1∨ x 3 )∧( ¬ x 1∨ x 2 )
+SIM. Se x1 =V e x2 = V (x3 qualquer)
+
+
+===== PAGE 12 =====
+
+Algoritmos Não Deterministas
+Capaz de escolher uma entre várias alternativas possíveis a cada 
+passo. A alternativa escolhida será sempre a alternativa que leva a 
+conclusão esperada, caso essa alternativa exista.
+int pesq(Estr *v, int n, int ch){
+   int i;
+   for (i = 0; i < n; i++)
+      if (v[i].chave == ch)
+         return i;
+   return -1;
+}
+int pesq(Estr *v, int n, int ch){
+   int i;
+   i = magicaND(0, n - 1);
+   if (v[i].chave == ch)
+      return i;
+   return -1;
+}
+Autômato não 
+determinista
+
+
+===== PAGE 13 =====
+
+Classes de Problemas P e NP
+Classe de Problemas P: Problemas que podem ser resolvido (por 
+algoritmos deterministas) em tempo polinomial.
+Classe de Problemas NP: Problemas que podem ser resolvidos 
+por algoritmos não deterministas  em tempo polinomial 
+(polinomialmente verificável ou certificado). Ou problemas que a 
+solução pode ser verificada em tempo polinomial.
+NP
+P
+Possíveis relações 
+entre as classes:
+NP = P
+?
+Pergunta do milhão: P=NP ou P ≠NP?
+
+
+===== PAGE 14 =====
+
+Classes de Problemas P e NP
+O status de muitos problemas NP é desconhecido:
+ - existe um algoritmo determinista polinomial para o problema?
+Investigar a complexidade relativa dos problemas da classe NP:
+- Problema A é mais fácil ou mais difícil do que B?
+Recorremos à ideia de redução polinomial:
+- Mostra que A não é mais difícil que B
+ ou que A é polinomialmente redutível
+ ao problema B.
+NP
+P
+
+
+===== PAGE 15 =====
+
+Redução de Problemas
+Se o “Algoritmo de Redução”, o “Algoritmo que Resolve B” 
+e a “Transformação de solução” forem polinomiais, então 
+podemos concluir algo sobre a solução do Problema A?
+A   ≤p   B
+Instância 
+Problema A
+Algoritmo de
+Redução
+Instância 
+Problema B
+Algoritmo que
+Resolve B
+Solução para o Problema A
+Solução 
+Problema B
+Solução 
+Problema A
+Transforma 
+Solução
+
+
+===== PAGE 16 =====
+
+Redução de Problemas
+Conclusões provenientes da redução:
+Se Y é polinomialmente redutível a X então Y não é mais difícil 
+do que X.
+Cenário 1: sabe-se que X está na classe P.
+     Logo, Y também deve estar na classe P.
+Cenário 2: não se sabe se X está ou não em P,
+     mas sabe-se que Y não está em P.
+     Como Y não é mais difícil que X, então X deve estar fora de P.
+Y   ≤p   X
+
+
+===== PAGE 17 =====
+
+Classes de Problemas NP-Hard
+Se podemos determinar que um problema não é mais difícil do 
+que outro, podemos separar os problemas mais difíceis dos mais 
+fáceis em NP!
+Assim surge a classe dos problemas mais difíceis
+A classe de problemas NP-Hard ou NP-Difícil!
+“Um problema A é NP-Difícil se todos os problemas em NP não 
+são mais difíceis do que A”
+“Um problema NP-Difícil é tão difícil quanto
+qualquer problema em NP”
+ NP-Difícil
+
+
+===== PAGE 18 =====
+
+Classes de Problemas NP-Hard
+Na classe NP-Difícil podemos encontrar problemas:
+- Indecidíveis: ex. problema da parada e equações diofantinas;
+- Decidíveis: podem ser resolvidos por um algoritmo não 
+determinista – um problema NP-Difícil que está em NP é dito 
+NP-Completo.
+Possíveis relações considerando P vs. NP
+NP
+P
+ NP-DifícilNP-Completo
+NP-Difícil
+P = NP = NP-Completo
+
+
+===== PAGE 19 =====
+
+Redução de Problemas
+Relação entre Redução e Problemas NP-Completos:
+Uma vez conhecido um problema NP-Completo, podemos usar 
+reduções polinomiais para provar que algum problema X também 
+é NP-Completo.
+“se Y é um problema NP-completo e Y não é mais difícil que um 
+problema X (redução) então X também é NP-completo”
+Y   ≤p   X
+
+
+===== PAGE 20 =====
+
+Classes de Problemas NP-Completo
+Se um problema NP-Completo pode ser resolvido em tempo 
+polinomial, então todo problema NP-Completo pode ser 
+resolvido em tempo polinomial e, portanto, P = NP
+Acredita-se que a relação 
+correta seja P ≠ NP
+       Por quê? NP
+P
+ NP-DifícilNP-Completo
+
+
+===== PAGE 21 =====
+
+NP-Completo
+Um problema X é NP-Completo se:
+1.  O problema deve ser NP:          X  NP
+a) Conseguir um algoritmo não determinista que resolva o problema 
+em tempo polinomial
+b) Conseguir um algoritmo determinista que verifica em tempo 
+polinomial se uma resposta é verdadeira ou não  (certificado)
+2.  Fazer a redução de um problema NP-Completo (Y) conhecido
+para o problema X:          Y p X    para todo    Y  NP
+
+
+===== PAGE 22 =====
+
+NP-Completo
+Exemplo: SAT é NP-Completo (Stephen Cook, 1971)
+Se podemos reduzir o SAT para CLIQUE, então CLIQUE é 
+também NP-Completo
+E, se podemos reduzir CLIQUE para Vertex Packing, então 
+também  será NP-Completo
+
+
+===== PAGE 23 =====
+
+SAT α CLIQUE
+● Vamos construir um grafo a partir da fórmula booleana (em 
+tempo polinomial)
+● Seja k o número de cláusulas (expressões entre parênteses);
+● Para cada elemento da fórmula (qualquer xi ou ¬xi) crie um 
+vértice (se um mesmo elemento aparecer mais de uma vez, 
+cada cópia será um vértice distinto);
+● Para cada par de elementos em cláusulas diferentes que 
+podem ser verdadeiros ao mesmo tempo , introduzimos uma 
+aresta entre eles.
+
+
+===== PAGE 24 =====
+
+SAT α CLIQUE
+x
+1
+∧( ¬ x
+1
+∨ x
+2
+∨¬ x
+3
+)∧ x
+3
+
+
+===== PAGE 25 =====
+
+SAT α CLIQUE
+x
+1
+∧( ¬ x
+1
+∨ x
+2
+∨¬ x
+3
+)∧ x
+3
+x1 e ¬x1 não podem ser verdadeiros ao mesmo tempo
+
+
+===== PAGE 26 =====
+
+SAT α CLIQUE
+x
+1
+∧( ¬ x
+1
+∨ x
+2
+∨¬ x
+3
+)∧ x
+3
+x1 e x2 podem ser verdadeiros ao mesmo tempo
+
+
+===== PAGE 27 =====
+
+SAT α CLIQUE
+x
+1
+∧( ¬ x
+1
+∨ x
+2
+∨¬ x
+3
+)∧ x
+3
+
+
+===== PAGE 28 =====
+
+SAT α CLIQUE
+x
+1
+∧( ¬ x
+1
+∨ x
+2
+∨¬ x
+3
+)∧ x
+3SAT
+CLIQUE
+
+
+===== PAGE 29 =====
+
+SAT α CLIQUE
+x
+1
+∧( ¬ x
+1
+∨ x
+2
+∨¬ x
+3
+)∧ x
+3SAT
+CLIQUE
+Uma resposta é sim para SAT e CLIQUE (e vice-versa)?
+
+
+===== PAGE 30 =====
+
+SAT α CLIQUE
+x
+1
+∧( ¬ x
+1
+∨ x
+2
+∨¬ x
+3
+)∧ x
+3
+SAT
+CLIQUE
+No CLIQUE, cada ligação define quem pode ser verdadeiro ao mesmo tempo.
+Portanto, um clique do tamanho do número de cláusulas corresponde a uma
+atribuição que avalia a fórmula como verdadeira.
+
+
+===== PAGE 31 =====
+
+SAT α CLIQUE
+x
+1
+∧( ¬ x
+1
+∨ x
+2
+∨¬ x
+3
+)∧ x
+3
+SAT
+CLIQUE
+No CLIQUE, cada ligação define quem pode ser verdadeiro ao mesmo tempo.
+Portanto, um clique do tamanho do número de cláusulas corresponde a uma
+atribuição que avalia a fórmula como verdadeira.
+Se tiver um 
+CLIQUE k=3, 
+então existe uma 
+atribuição onde a 
+expressão é 
+verdadeira
+
+
+===== PAGE 32 =====
+
+SAT α CLIQUE
+x
+1
+∧( ¬ x
+1
+∨ x
+2
+∨¬ x
+3
+)∧ x
+3
+SAT
+CLIQUE
+No CLIQUE, cada ligação define quem pode ser verdadeiro ao mesmo tempo.
+Portanto, um clique do tamanho do número de cláusulas corresponde a uma
+atribuição que avalia a fórmula como verdadeira.
+Se tiver um 
+CLIQUE k=3, 
+então existe uma 
+atribuição onde a 
+expressão é 
+verdadeira
+
+
+===== PAGE 33 =====
+
+SAT α CLIQUE
+● CLIQUE não é mais difícil de resolver do que SAT
+● Portanto, CLIQUE também é NP-Completo
+
+
+===== PAGE 34 =====
+
+Exercícios
+•
+ 

@@ -1,0 +1,87 @@
+\documentclass[12pt,oneside]{article}
+% \documentclass[12pt,oneside]{abntex2}
+% --- Pacotes básicos ---
+\usepackage[english,brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx,url}
+\usepackage{setspace}
+\usepackage{enumitem}
+% \usepackage{caption}
+\usepackage[section]{placeins}  % impede figuras fora da seção
+
+% --- Bibliografia ABNT ---
+\usepackage{csquotes}
+\usepackage[style=abnt,backend=biber,language=brazil]{biblatex}
+\addbibresource{Zotero_MinhaBiblioteca.bib}      % ln -s /Users/daltonreis/Zotero/Zotero_MinhaBiblioteca.bib
+
+% --- Ajustes de espaçamento e margens ---
+\usepackage[a4paper,margin=2.5cm]{geometry}
+% \setstretch{1.5}
+\sloppy
+
+% --- Formatar textos de código ---
+% \lstlistoflistings        % colocar no texto para gerar uma lista desses itens
+\newcommand{\code}[1]{\texttt{#1}}
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily,      % monoespaçada
+  columns=fullflexible,      % melhor espaçamento
+  keepspaces=true,           % preserva espaços
+  upquote=true               % aspas retas em verbatim
+}
+\renewcommand{\lstlistingname}{Listagem}
+\renewcommand{\lstlistlistingname}{Lista de listagens}
+
+\newenvironment{resumoEng}{%
+  \par\vspace{1em}%
+  \begin{center}\bfseries Abstract\end{center}%
+  \begin{quotation}%
+}{\end{quotation}}
+
+\newenvironment{resumoPort}{%
+  \par\vspace{1em}%
+  \begin{center}\bfseries Resumo\end{center}%
+  \begin{quotation}%
+}{\end{quotation}}
+
+% --- Formatação de título ---
+\title{Problema de Coloração de Grafos}
+\author{
+%Dalton Solano dos Reis\thanks{Programa de Pós-Graduação em Computação Aplicada (PPGCAP), Universidade do Estado de Santa Catarina (UDESC), e-mail: \texttt{dalton@furb.br}} 
+Dalton Solano dos Reis\thanks{PPGCAP - UDESC, e-mail: \texttt{dalton@furb.br}} 
+\and 
+Andre Tavares da Silva\thanks{PPGCAP - UDESC, e-mail: \texttt{andre.silva@udesc.br}}
+}
+\date{2026}
+
+\begin{document}
+\maketitle
+
+\begin{resumoPort}
+Este é o resumo em língua portuguesa. Deve conter uma síntese clara do conteúdo,
+incluindo objetivo, método, resultados e conclusões.
+
+\textbf{Palavras-chave:} Realidade Aumentada, Educação, Aprendizagem.
+\end{resumoPort}
+
+\input{secao_FundamentacaoTeorica}
+
+\input{secao_AlgoritmoOriginal}
+
+\input{secao_AlgoritmoOtimizado}
+
+\input{secao_ComparacaoOriginalOtimizado}
+
+\input{secao_consideracoesFinais}
+
+% ----------------------------------------------------------
+\printbibliography
+
+% ----------------------------------------------------------
+\appendix
+\renewcommand{\thesection}{Apêndice \Alph{section}}
+
+\input{secao_apendiceA.tex}
+
+\end{document}
