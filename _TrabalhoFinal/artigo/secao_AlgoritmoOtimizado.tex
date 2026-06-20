@@ -1,7 +1,7 @@
 % ----------------------------------------------------------
 \section{Apresentação da Versão Otimizada do algoritmo}\label{sec:secao_AlgoritmoOtimizado}
 
-A versão otimizada, implementada no Grupo 3 do notebook, substitui a enumeração direta de colorações por uma formulação lógica. O algoritmo reduz a coloração de grafos para SAT, converte a fórmula para 3-CNF-SAT e aplica DPLL com propagação unitária. A otimização não consiste em alterar a resposta do problema, mas em reorganizar o espaço de busca para que conflitos sejam detectados por inferência booleana antes que combinações completas de cores sejam construídas \parencite{dalton-reisUDESC_PAA_TFMainipynb}.
+A Versão Otimizada, implementada no Grupo 3 do notebook \parencite{dalton-reisUDESC_PAA_TFMainipynb}, substitui a enumeração direta de colorações por uma formulação lógica. O algoritmo reduz a coloração de grafos para SAT, converte a fórmula para 3-CNF-SAT e aplica DPLL com propagação unitária (Figura~\ref{fig:fluxo-otimizado}). A otimização não consiste em alterar a resposta do problema, mas em reorganizar o espaço de busca para que conflitos sejam detectados por inferência booleana antes que combinações completas de cores sejam construídas \parencite{dalton-reisUDESC_PAA_TFMainipynb}.
 
 \begin{figure}[htbp]
 \centering
@@ -29,7 +29,7 @@ A versão otimizada, implementada no Grupo 3 do notebook, substitui a enumeraç�
     \draw[seta] (cnf) -- (tres_cnf);
     \draw[seta] (tres_cnf) -- (dpll);
 \end{tikzpicture}
-\caption{Fluxo da versão otimizada}
+\caption{Fluxo da Versão Otimizada}
 \label{fig:fluxo-otimizado}
 \end{figure}
 
