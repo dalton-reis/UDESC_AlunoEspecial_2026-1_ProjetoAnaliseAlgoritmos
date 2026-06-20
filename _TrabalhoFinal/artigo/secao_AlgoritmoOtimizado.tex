@@ -15,7 +15,7 @@ A Versão Otimizada, implementada no Grupo 3 do notebook \parencite{dalton-reisU
     \node[fluxo, below left=of variaveis] (pelo_menos) {Cláusulas:\\pelo menos uma cor};
     \node[fluxo, below=of variaveis] (no_maximo) {Cláusulas:\\no máximo uma cor};
     \node[fluxo, below right=of variaveis] (arestas) {Cláusulas:\\arestas com cores diferentes};
-    \node[fluxo, below=2.0cm of variaveis] (cnf) {CNF};
+    \node[fluxo, below=of no_maximo] (cnf) {CNF};
     \node[fluxo, below=of cnf] (tres_cnf) {3-CNF-SAT};
     \node[fluxo, below=of tres_cnf] (dpll) {DPLL};
 
