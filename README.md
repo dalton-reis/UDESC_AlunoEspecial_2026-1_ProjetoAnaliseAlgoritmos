@@ -5,8 +5,8 @@
 Prof. André Tavares da Silva - Projeto e Análise de Algoritmos.  
 Sala – I005  
 Quartas  
-13:30~15:10 e 15:20~17:00  
-15:10~15:20 intervalo.  
+13:30\~15:10 e 15:20\~17:00  
+15:10\~15:20 intervalo.  
 Início das aulas: 12/03/2026
 
 PROCESSO SELETIVO ALUNO ESPECIAL 2026/1 - inscrições: 25 e 26/02/2026
