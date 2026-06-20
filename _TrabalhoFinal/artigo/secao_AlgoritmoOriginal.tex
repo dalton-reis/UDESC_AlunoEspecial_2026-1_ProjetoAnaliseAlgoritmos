@@ -18,14 +18,27 @@ def colorir_forca_bruta_original(grafo, numero_cores):
     return False, None, tentativas
 \end{lstlisting}
 
-A Listagem~\ref{lst:forca-bruta} evidencia a ausência de poda, ordenação de vértices ou propagação de restrições. Essa escolha torna o comportamento do algoritmo transparente: a complexidade decorre diretamente da cardinalidade do produto cartesiano. Para $n=|V|$ e $m=|E|$, há $k^n$ candidatas, e cada validação custa $O(n+m)$ quando a estrutura de verificação percorre a coloração e as adjacências. Assim, o custo temporal no pior caso é $O(k^n\cdot(n+m))$; para $k=3$, obtém-se $O(3^n\cdot(n+m))$. O consumo adicional de memória é $O(n)$, pois o algoritmo mantém apenas a tupla corrente, o dicionário de coloração e variáveis auxiliares de controle. O fluxo da Solução Original pode ser resumido pelo diagrama reproduzido na Listagem~\ref{lst:mermaid-original}, extraído da organização conceitual do notebook.
+A Listagem~\ref{lst:forca-bruta} evidencia a ausência de poda, ordenação de vértices ou propagação de restrições. Essa escolha torna o comportamento do algoritmo transparente: a complexidade decorre diretamente da cardinalidade do produto cartesiano. Para $n=|V|$ e $m=|E|$, há $k^n$ candidatas, e cada validação custa $O(n+m)$ quando a estrutura de verificação percorre a coloração e as adjacências. Assim, o custo temporal no pior caso é $O(k^n\cdot(n+m))$; para $k=3$, obtém-se $O(3^n\cdot(n+m))$. O consumo adicional de memória é $O(n)$, pois o algoritmo mantém apenas a tupla corrente, o dicionário de coloração e variáveis auxiliares de controle. O fluxo da Solução Original pode ser resumido pelo diagrama reproduzido na Figura~\ref{fig:fluxo-original}, extraído da organização conceitual do notebook.
 
-\begin{lstlisting}[caption={Fluxo da Solução Original em Mermaid}, label={lst:mermaid-original}]
-flowchart LR
-    A["Grafo G=(V,E)"] --> B["Solução Original: força bruta"]
-    B --> I["Grafo colorido"]
-    I --> F["Comparação de tempo e memória"]
-\end{lstlisting}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    node distance=0.6cm,
+    fluxo/.style={draw, rounded corners, align=center, font=\small, minimum width=2.9cm, minimum height=0.9cm},
+    seta/.style={-Latex, thick}
+]
+    \node[fluxo] (grafo) {Grafo $G=(V,E)$};
+    \node[fluxo, right=of grafo] (bruta) {Solução Original\\força bruta};
+    \node[fluxo, right=of bruta] (colorido) {Grafo colorido};
+    \node[fluxo, right=of colorido] (comparacao) {Comparação de\\tempo e memória};
+
+    \draw[seta] (grafo) -- (bruta);
+    \draw[seta] (bruta) -- (colorido);
+    \draw[seta] (colorido) -- (comparacao);
+\end{tikzpicture}
+\caption{Fluxo da Solução Original}
+\label{fig:fluxo-original}
+\end{figure}
 
 No grafo de exemplo com seis vértices, a Solução Original encontrou uma coloração válida após 141 tentativas, com tempo registrado de $0{,}001601$ s e pico de memória de $6{,}12$ KiB. Em grafos completos $K_n$, usados no Grupo 4 para criar instâncias difíceis quando $n>3$, o algoritmo esgotou $3^n$ combinações nas instâncias não 3-coloríveis. Essa característica é relevante: instâncias sem solução podem ser mais custosas do que instâncias satisfazíveis quando uma solução aparece cedo na ordem de enumeração. O método, portanto, é apropriado como linha de base experimental e como implementação de referência, mas não escala para grafos maiores porque não aprende com rejeições anteriores nem antecipa conflitos locais.
 

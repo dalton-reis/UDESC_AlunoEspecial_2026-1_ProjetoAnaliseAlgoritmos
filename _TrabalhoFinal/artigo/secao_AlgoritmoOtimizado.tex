@@ -3,18 +3,35 @@
 
 A versão otimizada, implementada no Grupo 3 do notebook, substitui a enumeração direta de colorações por uma formulação lógica. O algoritmo reduz a coloração de grafos para SAT, converte a fórmula para 3-CNF-SAT e aplica DPLL com propagação unitária. A otimização não consiste em alterar a resposta do problema, mas em reorganizar o espaço de busca para que conflitos sejam detectados por inferência booleana antes que combinações completas de cores sejam construídas \parencite{dalton-reisUDESC_PAA_TFMainipynb}.
 
-\begin{lstlisting}[caption={Fluxo da versão otimizada em Mermaid}, label={lst:mermaid-otimizado}]
-flowchart TD
-    A["Coloração de Grafos"] --> B["Variáveis booleanas x_v_c"]
-    B --> C["Cláusulas: pelo menos uma cor"]
-    B --> D["Cláusulas: no máximo uma cor"]
-    B --> E["Cláusulas: arestas com cores diferentes"]
-    C --> F["CNF"]
-    D --> F
-    E --> F
-    F --> G["3-CNF-SAT"]
-    G --> H["DPLL"]
-\end{lstlisting}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    node distance=1.0cm and 1.3cm,
+    fluxo/.style={draw, rounded corners, align=center, minimum width=3.8cm, minimum height=0.85cm},
+    seta/.style={-Latex, thick}
+]
+    \node[fluxo] (coloracao) {Coloração de Grafos};
+    \node[fluxo, below=of coloracao] (variaveis) {Variáveis booleanas\\$x_{v,c}$};
+    \node[fluxo, below left=of variaveis] (pelo_menos) {Cláusulas:\\pelo menos uma cor};
+    \node[fluxo, below=of variaveis] (no_maximo) {Cláusulas:\\no máximo uma cor};
+    \node[fluxo, below right=of variaveis] (arestas) {Cláusulas:\\arestas com cores diferentes};
+    \node[fluxo, below=2.0cm of variaveis] (cnf) {CNF};
+    \node[fluxo, below=of cnf] (tres_cnf) {3-CNF-SAT};
+    \node[fluxo, below=of tres_cnf] (dpll) {DPLL};
+
+    \draw[seta] (coloracao) -- (variaveis);
+    \draw[seta] (variaveis) -- (pelo_menos);
+    \draw[seta] (variaveis) -- (no_maximo);
+    \draw[seta] (variaveis) -- (arestas);
+    \draw[seta] (pelo_menos) -- (cnf);
+    \draw[seta] (no_maximo) -- (cnf);
+    \draw[seta] (arestas) -- (cnf);
+    \draw[seta] (cnf) -- (tres_cnf);
+    \draw[seta] (tres_cnf) -- (dpll);
+\end{tikzpicture}
+\caption{Fluxo da versão otimizada}
+\label{fig:fluxo-otimizado}
+\end{figure}
 
 A codificação cria uma variável $x_{v,c}$ para cada vértice $v$ e cor $c$. A cláusula $(x_{v,1}\vee x_{v,2}\vee x_{v,3})$ impõe que $v$ receba ao menos uma cor. As cláusulas binárias $(\neg x_{v,a}\vee \neg x_{v,b})$, para pares distintos de cores, impedem que o mesmo vértice receba duas cores simultaneamente. Para cada aresta $(u,v)$ e cor $c$, a cláusula $(\neg x_{u,c}\vee \neg x_{v,c})$ impede que os extremos compartilhem a cor $c$. Essa construção é polinomial: para $n=|V|$, $m=|E|$ e $k$ cores, cria $O(nk)$ variáveis e $O(nk^2+mk)$ cláusulas. Para $k=3$, isso corresponde a $3n$ variáveis e $4n+3m$ cláusulas antes das simplificações de execução.
 
