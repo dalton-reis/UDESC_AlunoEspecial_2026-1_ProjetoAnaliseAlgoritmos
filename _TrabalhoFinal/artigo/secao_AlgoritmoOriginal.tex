@@ -1,7 +1,7 @@
 % ----------------------------------------------------------
 \section{Apresentação da Solução Original do algoritmo}\label{sec:secao_AlgoritmoOriginal}
 
-A Solução Original implementada no Grupo 2 do notebook resolve a coloração por enumeração exaustiva. O algoritmo recebe um grafo representado por listas de adjacência e um número fixo de cores, definido no estudo como $k=3$. Em seguida, gera todas as tuplas de tamanho $|V|$ sobre o conjunto de cores e interpreta cada tupla como uma coloração candidata. A função de validação percorre as arestas e rejeita a candidata quando encontra dois vértices adjacentes com a mesma cor. A execução termina no primeiro certificado válido ou após esgotar todas as combinações \parencite{dalton-reisUDESC_PAA_TFMainipynb}.
+A Solução Original implementada no Grupo 2 do notebook\footnote{Notebook: o código pode ser visto em \parencite{dalton-reisUDESC_PAA_TFMainipynb}.} resolve a coloração por enumeração exaustiva. O algoritmo recebe um grafo representado por listas de adjacência e um número fixo de cores, definido no estudo como $k=3$. Em seguida, gera todas as tuplas de tamanho $|V|$ sobre o conjunto de cores e interpreta cada tupla como uma coloração candidata. A função de validação percorre as arestas e rejeita a candidata quando encontra dois vértices adjacentes com a mesma cor. A execução termina no primeiro certificado válido ou após esgotar todas as combinações \parencite{dalton-reisUDESC_PAA_TFMainipynb}.
 
 \begin{lstlisting}[language=Python, caption={Núcleo da Solução Original por força bruta}, label={lst:forca-bruta}]
 def colorir_forca_bruta_original(grafo, numero_cores):
