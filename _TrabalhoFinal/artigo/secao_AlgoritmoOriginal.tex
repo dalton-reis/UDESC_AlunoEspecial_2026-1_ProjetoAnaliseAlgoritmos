@@ -1,2 +1,34 @@
 % ----------------------------------------------------------
 \section{Apresentação da Solução Original do algoritmo}\label{sec:secao_AlgoritmoOriginal}
+
+A solução original implementada no Grupo 2 do notebook resolve a coloração por enumeração exaustiva. O algoritmo recebe um grafo representado por listas de adjacência e um número fixo de cores, definido no estudo como $k=3$. Em seguida, gera todas as tuplas de tamanho $|V|$ sobre o conjunto de cores e interpreta cada tupla como uma coloração candidata. A função de validação percorre as arestas e rejeita a candidata quando encontra dois vértices adjacentes com a mesma cor. A execução termina no primeiro certificado válido ou após esgotar todas as combinações \parencite{dalton-reisUDESC_PAA_TFMainipynb}.
+
+\begin{lstlisting}[language=Python, caption={Núcleo da solução original por força bruta}, label={lst:forca-bruta}]
+def colorir_forca_bruta_original(grafo, numero_cores):
+    vertices = list(grafo.keys())
+    tentativas = 0
+
+    for cores_candidatas in product(range(numero_cores),
+                                    repeat=len(vertices)):
+        tentativas += 1
+        coloracao = dict(zip(vertices, cores_candidatas))
+        if coloracao_valida(grafo, coloracao):
+            return True, coloracao, tentativas
+
+    return False, None, tentativas
+\end{lstlisting}
+
+A Listagem~\ref{lst:forca-bruta} evidencia a ausência de poda, ordenação de vértices ou propagação de restrições. Essa escolha torna o comportamento do algoritmo transparente: a complexidade decorre diretamente da cardinalidade do produto cartesiano. Para $n=|V|$ e $m=|E|$, há $k^n$ candidatas, e cada validação custa $O(n+m)$ quando a estrutura de verificação percorre a coloração e as adjacências. Assim, o custo temporal no pior caso é $O(k^n\cdot(n+m))$; para $k=3$, obtém-se $O(3^n\cdot(n+m))$. O consumo adicional de memória é $O(n)$, pois o algoritmo mantém apenas a tupla corrente, o dicionário de coloração e variáveis auxiliares de controle.
+
+O fluxo da solução original pode ser resumido pelo diagrama Mermaid reproduzido na Listagem~\ref{lst:mermaid-original}, extraído da organização conceitual do notebook. A decisão metodológica de apresentar o diagrama como listagem preserva a rastreabilidade do artefato original sem introduzir dependência externa de renderização no processo LaTeX.
+
+\begin{lstlisting}[caption={Fluxo da solução original em Mermaid}, label={lst:mermaid-original}]
+flowchart LR
+    A["Grafo G=(V,E)"] --> B["Solução original: força bruta"]
+    B --> I["Grafo colorido"]
+    I --> F["Comparação de tempo e memória"]
+\end{lstlisting}
+
+No grafo de exemplo com seis vértices, a solução original encontrou uma coloração válida após 141 tentativas, com tempo registrado de $0{,}001601$ s e pico de memória de $6{,}12$ KiB. Em grafos completos $K_n$, usados no Grupo 4 para criar instâncias difíceis quando $n>3$, o algoritmo esgotou $3^n$ combinações nas instâncias não 3-coloríveis. Essa característica é relevante: instâncias sem solução podem ser mais custosas do que instâncias satisfazíveis quando uma solução aparece cedo na ordem de enumeração. O método, portanto, é apropriado como linha de base experimental e como implementação de referência, mas não escala para grafos maiores porque não aprende com rejeições anteriores nem antecipa conflitos locais.
+
+A principal vantagem da solução original é sua simplicidade operacional. O algoritmo não depende de transformações intermediárias, sua correção é imediata pela enumeração completa do espaço de soluções, e o baixo consumo de memória favorece instâncias pequenas. A limitação é estrutural: qualquer aumento em $|V|$ multiplica o espaço de busca por $k$, e a validação de uma candidata inválida não impede que candidatas equivalentes, contendo o mesmo conflito parcial, sejam avaliadas posteriormente. Essa limitação motiva a versão otimizada, que representa as restrições em uma fórmula booleana para permitir simplificações antes da exploração exaustiva.

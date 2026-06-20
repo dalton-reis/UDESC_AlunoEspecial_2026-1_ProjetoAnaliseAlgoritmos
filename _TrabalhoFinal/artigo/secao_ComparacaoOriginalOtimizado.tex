@@ -1,2 +1,46 @@
 % ----------------------------------------------------------
 \section{Comparação entre Original e Otimizada}\label{sec:secao_ComparacaoOriginalOtimizado}
+
+A comparação entre as duas versões deve separar complexidade assintótica e desempenho observado. A solução original opera diretamente sobre colorações candidatas; a versão otimizada constrói uma instância booleana e executa busca sobre variáveis SAT. Ambas enfrentam um problema exponencial no pior caso, mas exploram espaços de busca com granularidades diferentes. Na força bruta, cada tentativa corresponde a uma coloração completa. No DPLL, uma decisão booleana pode determinar várias consequências por propagação unitária, o que reduz o número de ramificações em instâncias nas quais as restrições produzem cláusulas unitárias cedo \parencite{dalton-reisUDESC_PAA_TFMainipynb}.
+
+\begin{table}[htbp]
+\centering
+\caption{Comparação assintótica das versões analisadas}
+\label{tab:complexidades}
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.23\textwidth}>{\raggedright\arraybackslash}p{0.36\textwidth}>{\raggedright\arraybackslash}p{0.29\textwidth}}
+\hline
+\textbf{Versão} & \textbf{Tempo} & \textbf{Memória adicional} \\
+\hline
+Original por força bruta & $O(k^{|V|}\cdot(|V|+|E|))$; para $k=3$, $O(3^{|V|}\cdot(|V|+|E|))$ & $O(|V|)$ para a coloração candidata \\
+Otimizada por SAT/DPLL & Redução em $O(|V|k^2+|E|k)$ e DPLL exponencial no pior caso, limitado por $O(2^{|V|k})$ em termos das variáveis booleanas & $O(|V|k+|V|k^2+|E|k)$ para mapeamentos, fórmula e atribuição \\
+\hline
+\end{tabular}
+\end{table}
+
+A Tabela~\ref{tab:complexidades} mostra que a otimização não transforma o problema em polinomial. O benefício está no fator prático de busca: a codificação SAT explicita restrições que a força bruta só detecta após montar uma coloração inteira. Para $k=3$, a fórmula possui $3|V|$ variáveis booleanas. O número de cláusulas cresce linearmente em $|E|$ para as restrições entre adjacentes e linearmente em $|V|$ para as restrições internas de cada vértice, uma vez que $k$ é constante. Essa estrutura aumenta a memória, mas fornece ao DPLL informação suficiente para simplificar a fórmula a cada atribuição.
+
+\begin{table}[htbp]
+\centering
+\caption{Resultados observados em grafos completos $K_n$ com três cores}
+\label{tab:resultados-kn}
+\begin{tabular}{rrrrrr}
+\hline
+\textbf{$|V|$} & \textbf{$|E|$} & \textbf{Tentativas} & \textbf{Decisões} & \textbf{Tempo original (s)} & \textbf{Tempo otimizado (s)} \\
+\hline
+3 & 3  & 6     & 2  & 0,000045 & 0,000178 \\
+4 & 6  & 81    & 10 & 0,000412 & 0,000722 \\
+5 & 10 & 243   & 10 & 0,001454 & 0,001319 \\
+6 & 15 & 729   & 10 & 0,004996 & 0,001583 \\
+7 & 21 & 2187  & 10 & 0,017849 & 0,002106 \\
+8 & 28 & 6561  & 10 & 0,057489 & 0,002886 \\
+9 & 36 & 19683 & 10 & 0,203038 & 0,003302 \\
+\hline
+\end{tabular}
+\end{table}
+
+Os dados da Tabela~\ref{tab:resultados-kn} foram coletados com uma repetição por tamanho, usando grafos completos de três a nove vértices. Para $n>3$, esses grafos não são 3-coloríveis, pois contêm clique de tamanho maior que três; por isso, a força bruta precisa esgotar todas as combinações. O número de tentativas acompanha exatamente $3^{|V|}$ nas instâncias sem solução. A versão otimizada manteve dez decisões de DPLL de $K_4$ a $K_9$, porque as cláusulas de incompatibilidade em grafos completos produzem contradições rapidamente depois de poucas atribuições. O tempo otimizado cresce de modo mais suave no intervalo avaliado, embora ainda inclua o custo de construir e simplificar a fórmula.
+
+O uso de memória apresenta comportamento oposto ao tempo. No conjunto de grafos completos, a média de memória da força bruta foi $2{,}35$ KiB, enquanto a versão otimizada atingiu média de $19{,}48$ KiB. A diferença é esperada: a força bruta descarta cada candidata após a validação, ao passo que o método SAT mantém mapeamentos entre pares $(v,c)$ e variáveis, listas de cláusulas, atribuições parciais e cópias simplificadas durante a recursão. A decisão de otimizar processamento por representação lógica, portanto, desloca parte do custo para memória.
+
+Os tempos médios registrados foram $0{,}040755$ s para a solução original e $0{,}001728$ s para a otimizada. Esses valores não devem ser generalizados como fator universal de aceleração, pois dependem da ordem de enumeração, da densidade dos grafos, da implementação em Python, do coletor de memória e do conjunto de instâncias. Ainda assim, eles evidenciam uma tendência coerente com a análise teórica: quando a instância contém muitas restrições, a propagação unitária e a escolha de variáveis frequentes conseguem detectar inviabilidade antes da enumeração completa. Em grafos esparsos ou em instâncias satisfazíveis cuja primeira coloração válida aparece cedo, a força bruta pode competir em tempo absoluto por evitar o custo fixo da redução.

@@ -7,6 +7,8 @@
 \usepackage{graphicx,url}
 \usepackage{setspace}
 \usepackage{enumitem}
+\usepackage{amsmath,amssymb}
+\usepackage{array}
 % \usepackage{caption}
 \usepackage[section]{placeins}  % impede figuras fora da seção
 
@@ -28,7 +30,20 @@
   basicstyle=\ttfamily,      % monoespaçada
   columns=fullflexible,      % melhor espaçamento
   keepspaces=true,           % preserva espaços
-  upquote=true               % aspas retas em verbatim
+  upquote=true,              % aspas retas em verbatim
+  literate=
+    {á}{{\'a}}1 {à}{{\`a}}1 {ã}{{\~a}}1 {â}{{\^a}}1
+    {é}{{\'e}}1 {ê}{{\^e}}1
+    {í}{{\'i}}1
+    {ó}{{\'o}}1 {õ}{{\~o}}1 {ô}{{\^o}}1
+    {ú}{{\'u}}1
+    {ç}{{\c c}}1
+    {Á}{{\'A}}1 {À}{{\`A}}1 {Ã}{{\~A}}1 {Â}{{\^A}}1
+    {É}{{\'E}}1 {Ê}{{\^E}}1
+    {Í}{{\'I}}1
+    {Ó}{{\'O}}1 {Õ}{{\~O}}1 {Ô}{{\^O}}1
+    {Ú}{{\'U}}1
+    {Ç}{{\c C}}1
 }
 \renewcommand{\lstlistingname}{Listagem}
 \renewcommand{\lstlistlistingname}{Lista de listagens}
@@ -59,10 +74,9 @@ Andre Tavares da Silva\thanks{PPGCAP - UDESC, e-mail: \texttt{andre.silva@udesc.
 \maketitle
 
 \begin{resumoPort}
-Este é o resumo em língua portuguesa. Deve conter uma síntese clara do conteúdo,
-incluindo objetivo, método, resultados e conclusões.
+Este artigo analisa o Problema de Coloração de Grafos na formulação de decisão para três cores, comparando uma solução por força bruta com uma versão baseada em redução para SAT, conversão para 3-CNF-SAT e resolução por DPLL com propagação unitária. O estudo parte da caracterização teórica do problema, de suas aplicações e de sua relação com problemas NP-Completos, e implementa as duas abordagens em um mesmo ambiente experimental. A versão original enumera todas as atribuições possíveis de cores e valida cada candidata diretamente no grafo. A versão otimizada codifica restrições de unicidade de cor e incompatibilidade entre vértices adjacentes como cláusulas booleanas, explorando simplificação lógica antes das ramificações do DPLL. Nos experimentos registrados, a força bruta apresentou crescimento coerente com $O(3^{|V|})$, enquanto a versão otimizada reduziu o número de decisões e o tempo médio observado, embora com maior consumo de memória devido ao armazenamento da fórmula CNF. Os resultados indicam que reduções polinomiais para SAT podem melhorar o desempenho prático em instâncias pequenas e médias quando a propagação elimina grandes partes do espaço de busca, mas não removem o pior caso exponencial inerente à formulação de decisão do problema.
 
-\textbf{Palavras-chave:} Realidade Aumentada, Educação, Aprendizagem.
+\textbf{Palavras-chave:} Coloração de grafos. SAT. 3-CNF-SAT. DPLL. Complexidade de algoritmos.
 \end{resumoPort}
 
 \input{secao_FundamentacaoTeorica}
