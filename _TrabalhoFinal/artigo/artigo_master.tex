@@ -23,6 +23,14 @@
 \usepackage[a4paper,margin=2.5cm]{geometry}
 % \setstretch{1.5}
 \sloppy
+\setlength{\intextsep}{0.8\baselineskip}
+\setlength{\textfloatsep}{0.8\baselineskip}
+\setlength{\floatsep}{0.8\baselineskip}
+\newcommand{\fonteilustracao}[1]{%
+  \par\vspace{0.15cm}%
+  {\centering\small Fonte: #1.\par}%
+  \vspace{0.8\baselineskip}%
+}
 
 % --- Formatar textos de código ---
 % \lstlistoflistings        % colocar no texto para gerar uma lista desses itens
@@ -33,6 +41,11 @@
   columns=fullflexible,      % melhor espaçamento
   keepspaces=true,           % preserva espaços
   upquote=true,              % aspas retas em verbatim
+  frame=single,              % borda fina ao redor das listagens
+  framerule=0.4pt,
+  framesep=4pt,
+  aboveskip=0.8\baselineskip,
+  belowskip=0pt,
   literate=
     {á}{{\'a}}1 {à}{{\`a}}1 {ã}{{\~a}}1 {â}{{\^a}}1
     {é}{{\'e}}1 {ê}{{\^e}}1
@@ -76,7 +89,7 @@ Andre Tavares da Silva\thanks{PPGCAP - UDESC, e-mail: \texttt{andre.silva@udesc.
 \maketitle
 
 \begin{resumoPort}
-Este artigo analisa o Problema de Coloração de Grafos na formulação de decisão para três cores, comparando uma solução por força bruta com uma versão baseada em redução para SAT, conversão para 3-CNF-SAT e resolução por DPLL com propagação unitária. O estudo parte da caracterização teórica do problema, de suas aplicações e de sua relação com problemas NP-Completos, e implementa as duas abordagens em um mesmo ambiente experimental. A versão original enumera todas as atribuições possíveis de cores e valida cada candidata diretamente no grafo. A versão otimizada codifica restrições de unicidade de cor e incompatibilidade entre vértices adjacentes como cláusulas booleanas, explorando simplificação lógica antes das ramificações do DPLL. Nos experimentos registrados, a força bruta apresentou crescimento coerente com $O(3^{|V|})$, enquanto a versão otimizada reduziu o número de decisões e o tempo médio observado, embora com maior consumo de memória devido ao armazenamento da fórmula CNF. Os resultados indicam que reduções polinomiais para SAT podem melhorar o desempenho prático em instâncias pequenas e médias quando a propagação elimina grandes partes do espaço de busca, mas não removem o pior caso exponencial inerente à formulação de decisão do problema.
+Este artigo analisa o Problema de Coloração de Grafos na formulação de decisão para três cores, comparando uma solução por força bruta com uma versão baseada em redução para SAT, conversão para 3-CNF-SAT e resolução por DPLL com propagação unitária. O estudo parte da caracterização teórica do problema, de suas aplicações e de sua relação com problemas NP-Completos, e implementa as duas abordagens em um mesmo ambiente experimental\footnote{Ambiente experimental: ver código no notebook Python em \parencite{dalton-reisUDESC_PAA_TFMainipynb}.}. A versão original enumera todas as atribuições possíveis de cores e valida cada candidata diretamente no grafo. A versão otimizada codifica restrições de unicidade de cor e incompatibilidade entre vértices adjacentes como cláusulas booleanas, explorando simplificação lógica antes das ramificações do DPLL. Nos experimentos registrados, a força bruta apresentou crescimento coerente com $O(3^{|V|})$, enquanto a versão otimizada reduziu o número de decisões e o tempo médio observado, embora com maior consumo de memória devido ao armazenamento da fórmula CNF. Os resultados indicam que reduções polinomiais para SAT podem melhorar o desempenho prático em instâncias pequenas e médias quando a propagação elimina grandes partes do espaço de busca, mas não removem o pior caso exponencial inerente à formulação de decisão do problema.
 
 \textbf{Palavras-chave:} Coloração de grafos. SAT. 3-CNF-SAT. DPLL. Complexidade de algoritmos.
 \end{resumoPort}

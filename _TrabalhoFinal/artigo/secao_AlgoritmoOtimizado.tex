@@ -5,9 +5,14 @@ A Versão Otimizada, implementada no Grupo 3 do notebook \parencite{dalton-reisU
 
 \begin{figure}[htbp]
 \centering
+\caption{Fluxo da Versão Otimizada}
+\label{fig:fluxo-otimizado}
+\setlength{\fboxsep}{4pt}
+\setlength{\fboxrule}{0.4pt}
+\fbox{\resizebox{0.70\textwidth}{!}{%
 \begin{tikzpicture}[
     node distance=1.0cm and 1.3cm,
-    fluxo/.style={draw, rounded corners, align=center, minimum width=3.8cm, minimum height=0.85cm},
+    fluxo/.style={draw, rounded corners, align=center, font=\small, minimum width=3.8cm, minimum height=0.85cm},
     seta/.style={-Latex, thick}
 ]
     \node[fluxo] (coloracao) {Coloração de Grafos};
@@ -29,11 +34,11 @@ A Versão Otimizada, implementada no Grupo 3 do notebook \parencite{dalton-reisU
     \draw[seta] (cnf) -- (tres_cnf);
     \draw[seta] (tres_cnf) -- (dpll);
 \end{tikzpicture}
-\caption{Fluxo da Versão Otimizada}
-\label{fig:fluxo-otimizado}
+}}
+\fonteilustracao{elaborado pelos autores a partir do notebook \parencite{dalton-reisUDESC_PAA_TFMainipynb}}
 \end{figure}
 
-A codificação cria uma variável $x_{v,c}$ para cada vértice $v$ e cor $c$. A cláusula $(x_{v,1}\vee x_{v,2}\vee x_{v,3})$ impõe que $v$ receba ao menos uma cor. As cláusulas binárias $(\neg x_{v,a}\vee \neg x_{v,b})$, para pares distintos de cores, impedem que o mesmo vértice receba duas cores simultaneamente. Para cada aresta $(u,v)$ e cor $c$, a cláusula $(\neg x_{u,c}\vee \neg x_{v,c})$ impede que os extremos compartilhem a cor $c$. Essa construção é polinomial: para $n=|V|$, $m=|E|$ e $k$ cores, cria $O(nk)$ variáveis e $O(nk^2+mk)$ cláusulas. Para $k=3$, isso corresponde a $3n$ variáveis e $4n+3m$ cláusulas antes das simplificações de execução.
+A codificação, sintetizada na Listagem~\ref{lst:reducao-cnf}, cria uma variável $x_{v,c}$ para cada vértice $v$ e cor $c$. A cláusula $(x_{v,1}\vee x_{v,2}\vee x_{v,3})$ impõe que $v$ receba ao menos uma cor. As cláusulas binárias $(\neg x_{v,a}\vee \neg x_{v,b})$, para pares distintos de cores, impedem que o mesmo vértice receba duas cores simultaneamente. Para cada aresta $(u,v)$ e cor $c$, a cláusula $(\neg x_{u,c}\vee \neg x_{v,c})$ impede que os extremos compartilhem a cor $c$. Essa construção é polinomial: para $n=|V|$, $m=|E|$ e $k$ cores, cria $O(nk)$ variáveis e $O(nk^2+mk)$ cláusulas. Para $k=3$, isso corresponde a $3n$ variáveis e $4n+3m$ cláusulas antes das simplificações de execução.
 
 \begin{lstlisting}[language=Python, caption={Geração das cláusulas CNF para coloração}, label={lst:reducao-cnf}]
 for vertice in sorted(grafo):
@@ -57,10 +62,11 @@ for u, v in listar_arestas(grafo):
             -variavel_por_par[(v, cor)]
         ))
 \end{lstlisting}
+\fonteilustracao{elaborado pelos autores a partir do notebook \parencite{dalton-reisUDESC_PAA_TFMainipynb}}
 
 A conversão para 3-CNF-SAT preserva a satisfazibilidade por repetição de literais em cláusulas de tamanho um ou dois. Por exemplo, uma cláusula $(a\vee b)$ é representada como $(a\vee b\vee b)$. Essa estratégia é correta para a implementação analisada porque a redução para três cores não gera cláusulas com mais de três literais. Em uma formulação com $k>3$, a cláusula ``pelo menos uma cor'' teria tamanho $k$ e exigiria transformação geral, usualmente com variáveis auxiliares, para manter crescimento polinomial \parencite{Silva2026PAA13}. Portanto, a otimização avaliada deve ser lida como uma solução especializada para a decisão de 3-coloração, não como conversor 3-CNF universal.
 
-O DPLL usado na solução otimizada aplica propagação unitária antes de escolher uma variável para ramificação. A propagação percorre a fórmula simplificada e identifica cláusulas que, após atribuições anteriores, contêm apenas um literal efetivo; esse literal precisa ser verdadeiro para evitar contradição. A escolha de variável usa uma heurística simples de frequência: seleciona a variável não atribuída que aparece mais vezes nas cláusulas remanescentes. Essa escolha tende a antecipar decisões com maior impacto porque uma variável frequente participa de mais restrições, embora não garanta redução assintótica no pior caso.
+O DPLL usado na solução otimizada, apresentado na Listagem~\ref{lst:dpll}, aplica propagação unitária antes de escolher uma variável para ramificação. A propagação percorre a fórmula simplificada e identifica cláusulas que, após atribuições anteriores, contêm apenas um literal efetivo; esse literal precisa ser verdadeiro para evitar contradição. A escolha de variável usa uma heurística simples de frequência: seleciona a variável não atribuída que aparece mais vezes nas cláusulas remanescentes. Essa escolha tende a antecipar decisões com maior impacto porque uma variável frequente participa de mais restrições, embora não garanta redução assintótica no pior caso.
 
 \begin{lstlisting}[language=Python, caption={Estrutura do DPLL com propagação unitária}, label={lst:dpll}]
 formula_atual, atribuicao_atual = propagar_unitarias(formula,
@@ -83,5 +89,6 @@ for valor in (True, False):
     if satisfazivel:
         return True, solucao, estatisticas
 \end{lstlisting}
+\fonteilustracao{elaborado pelos autores a partir do notebook \parencite{dalton-reisUDESC_PAA_TFMainipynb}}
 
 Após encontrar uma atribuição satisfatória, o algoritmo reconstrói a coloração lendo as variáveis verdadeiras associadas aos pares $(v,c)$ e valida novamente a solução no grafo original. Essa verificação final reduz o risco de erro de implementação na tradução entre modelos, pois uma atribuição booleana pode conter variáveis auxiliares ou combinações irrelevantes para a coloração reconstruída. No exemplo com seis vértices, a solução otimizada encontrou coloração válida com duas decisões, tempo de $0{,}000464$ s e pico de memória de $14{,}97$ KiB. O ganho de tempo decorre da eliminação de atribuições inconsistentes ainda parciais; o custo é o armazenamento da fórmula e das estruturas de mapeamento. A próxima seção quantifica esse compromisso entre processamento, memória e número de decisões.
