@@ -13,6 +13,7 @@ A comparação entre as duas versões deve separar complexidade assintótica e d
 \textbf{Versão} & \textbf{Tempo} & \textbf{Memória adicional} \\
 \hline
 Original por força bruta & $O(k^{|V|}\cdot(|V|+|E|))$; para $k=3$, $O(3^{|V|}\cdot(|V|+|E|))$ & $O(|V|)$ para a coloração candidata \\
+\hline
 Otimizada por SAT/DPLL & Redução em $O(|V|k^2+|E|k)$ e DPLL exponencial no pior caso, limitado por $O(2^{|V|k})$ em termos das variáveis booleanas & $O(|V|k+|V|k^2+|E|k)$ para mapeamentos, fórmula e atribuição \\
 \hline
 \end{tabular}
