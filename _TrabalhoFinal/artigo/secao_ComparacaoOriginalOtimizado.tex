@@ -41,7 +41,58 @@ A Tabela~\ref{tab:complexidades} mostra que a otimização não transforma o pro
 \end{tabular}
 \end{table}
 
-Os dados da Tabela~\ref{tab:resultados-kn} foram coletados com uma repetição por tamanho, usando grafos completos de três a nove vértices. Para $n>3$, esses grafos não são 3-coloríveis, pois contêm clique de tamanho maior que três; por isso, a força bruta precisa esgotar todas as combinações. O número de tentativas acompanha exatamente $3^{|V|}$ nas instâncias sem solução. A versão otimizada manteve dez decisões de DPLL de $K_4$ a $K_9$, porque as cláusulas de incompatibilidade em grafos completos produzem contradições rapidamente depois de poucas atribuições. O tempo otimizado cresce de modo mais suave no intervalo avaliado, embora ainda inclua o custo de construir e simplificar a fórmula.
+Os dados da Tabela~\ref{tab:resultados-kn} foram coletados com uma repetição por tamanho, usando grafos completos de três a nove vértices. A Figura~\ref{fig:tempos-kn} representa graficamente os tempos observados na Tabela~\ref{tab:resultados-kn}, em escala logarítmica, para facilitar a comparação entre as duas versões.
+
+\begin{figure}[htbp]
+\centering
+\caption{Tempos observados em grafos completos $K_n$}
+\label{fig:tempos-kn}
+\setlength{\fboxsep}{4pt}
+\setlength{\fboxrule}{0.4pt}
+\fbox{\resizebox{0.82\textwidth}{!}{%
+\begin{tikzpicture}[
+    eixo/.style={-Latex, thick},
+    serie/.style={thick},
+    ponto/.style={circle, fill, inner sep=1.5pt},
+    rotulo/.style={font=\small},
+    legenda/.style={font=\small}
+]
+    \draw[eixo] (0,0) -- (7.0,0) node[right, rotulo] {$|V|$};
+    \draw[eixo] (0,0) -- (0,4.7) node[above, rotulo] {Tempo (s, escala $\log_{10}$)};
+
+    \foreach \x/\n in {0.5/3,1.5/4,2.5/5,3.5/6,4.5/7,5.5/8,6.5/9} {
+        \draw (\x,0) -- (\x,-0.07) node[below, rotulo] {\n};
+    }
+
+    \foreach \y/\valor in {0/$10^{-5}$,1/$10^{-4}$,2/$10^{-3}$,3/$10^{-2}$,4/$10^{-1}$} {
+        \draw (0,\y) -- (-0.07,\y) node[left, rotulo] {\valor};
+        \draw[gray!25] (0,\y) -- (6.8,\y);
+    }
+
+    \draw[serie, blue!70!black]
+        (0.5,0.653) -- (1.5,1.385) -- (2.5,2.163) -- (3.5,2.699)
+        -- (4.5,3.252) -- (5.5,3.760) -- (6.5,4.308);
+    \draw[serie, red!70!black]
+        (0.5,1.250) -- (1.5,1.859) -- (2.5,2.120) -- (3.5,2.200)
+        -- (4.5,2.323) -- (5.5,2.460) -- (6.5,2.519);
+
+    \foreach \x/\y in {0.5/0.653,1.5/1.385,2.5/2.163,3.5/2.699,4.5/3.252,5.5/3.760,6.5/4.308} {
+        \node[ponto, blue!70!black] at (\x,\y) {};
+    }
+    \foreach \x/\y in {0.5/1.250,1.5/1.859,2.5/2.120,3.5/2.200,4.5/2.323,5.5/2.460,6.5/2.519} {
+        \node[ponto, red!70!black] at (\x,\y) {};
+    }
+
+    \draw[serie, blue!70!black] (4.9,4.55) -- (5.4,4.55);
+    \node[legenda, anchor=west] at (5.5,4.55) {Original};
+    \draw[serie, red!70!black] (4.9,4.25) -- (5.4,4.25);
+    \node[legenda, anchor=west] at (5.5,4.25) {Otimizada};
+\end{tikzpicture}
+}}
+\fonteilustracao{elaborado pelos autores a partir dos resultados do notebook \parencite{dalton-reisUDESC_PAA_TFMainipynb}}
+\end{figure}
+
+Para $n>3$, esses grafos não são 3-coloríveis, pois contêm clique de tamanho maior que três; por isso, a força bruta precisa esgotar todas as combinações. O número de tentativas acompanha exatamente $3^{|V|}$ nas instâncias sem solução. A versão otimizada manteve dez decisões de DPLL de $K_4$ a $K_9$, porque as cláusulas de incompatibilidade em grafos completos produzem contradições rapidamente depois de poucas atribuições. O tempo otimizado cresce de modo mais suave no intervalo avaliado, embora ainda inclua o custo de construir e simplificar a fórmula.
 
 O uso de memória apresenta comportamento oposto ao tempo. No conjunto de grafos completos, a média de memória da força bruta foi $2{,}35$ KiB, enquanto a versão otimizada atingiu média de $19{,}48$ KiB. A diferença é esperada: a força bruta descarta cada candidata após a validação, ao passo que o método SAT mantém mapeamentos entre pares $(v,c)$ e variáveis, listas de cláusulas, atribuições parciais e cópias simplificadas durante a recursão. A decisão de otimizar processamento por representação lógica, portanto, desloca parte do custo para memória.
 
