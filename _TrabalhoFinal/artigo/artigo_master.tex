@@ -14,9 +14,13 @@
 % \usepackage{caption}
 \usepackage[section]{placeins}  % impede figuras fora da seção
 
+% --- Hyperlinks (citações, figuras, tabelas) ---
+\usepackage[hidelinks]{hyperref}
+
 % --- Bibliografia ABNT ---
 \usepackage{csquotes}
 \usepackage[style=abnt,backend=biber,language=brazil]{biblatex}
+\DeclareBibliographyAlias{standard}{misc}
 \addbibresource{Zotero_MinhaBiblioteca.bib}      % ln -s /Users/daltonreis/Zotero/Zotero_MinhaBiblioteca.bib
 
 % --- Ajustes de espaçamento e margens ---
